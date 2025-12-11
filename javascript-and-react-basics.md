@@ -114,4 +114,25 @@ const hi = function() {                 // 함수 '표현식'
 
 
 # React
+## 1. 개념과 특징
+### 1-1. 컴포넌트 기반 구조 (Component-Based)
+독립적이고 재사용 가능한 컴포넌트로 나누어 개발한다
+```
+function Button({ text, onClick }) {
+  return <button onClick={onClick}>{text}</button>;
+}
+```
+버튼 컴포넌트를 만들었다
 
+```
+<Button text="저장" onClick={handleSave} />
+<Button text="취소" onClick={handleCancel} />
+<Button text="삭제" onClick={handleDelete} />
+```
+여러 곳에서 재사용 가능
+
+### 1-2. 선언적 프로그래밍 (Declarative)
+
+### 1-3. Virtual DOM (가상 DOM)
+### 1-4. 단방향 데이터 흐름 (One-Way Data Flow)
+### 1-5. 사용하는 이유
