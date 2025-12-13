@@ -110,8 +110,143 @@ const hi = function() {                 // 함수 '표현식'
 
 ## 2. this 바인딩
 
+## 3. 구조 분해 할당 (Destructuring)
+### 3-1. 객체 구조를 분해할 수 있다
++ 배열도 구조 분해가 가능하다
+```
+const user = {
+        name : "김철수",
+        age : 25,
+        email : "kim@example.com"
+};
 
+const name = user.name; //const는 변수를 만드는 명령어
+const age = user.age;
+```
+기존 방식 = user. 을 계속 반복해야함 (값이 많아질수록 귀찮음)
+```
+console.log(name);
+console.log(age);
+console.log(email);
+```
+위의 식을 구조 분해 할당방식으로 아래처럼 축약 가능함
+```
+const { name, age, email } = user;
+```
+const { name } = user; 처럼 필요한 것만 꺼낼 수 있음
 
+### 3-2. 기본값 설정법
+존재하지 않는 속성에 기본값을 지정할 수 있다
+```
+const user = {
+    name: "김철수"
+};
+const { name, hobby = "독서" } = user;  // hobby가 없으면 "독서"를 기본값으로 사용
+```
+
+### 3-3. 변수명 변경
+추출한 값을 다른 변수명으로 저장할 수 있다
+```
+const { name: userName, age: userAge } = user;
+```
+### 3-4. 배열 구조 분해
+배열도 구조 분해가 가능하다
+```
+const colors = ["빨강", "파랑", "초록"];
+const [first, second, third] = colors;
+```
+일부 요소를 건너뛰는 것도 가능함
+```
+const numbers = [1, 2, 3, 4, 5];
+const [first, , third] = numbers; // 두 번째 요소 건너뛰기
+```
+
+## 4. 스프레드 연산자 (Spread Operator)
+### 4-1. 배열 스프레드 
+... 를 사용하여 배열이나 객체를 펼치는 문법
+React에서 stat 불변성을 유지할 때 필수적임
+```
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+const combined = [...arr1, ...arr2];
+console.log(combined); // [1, 2, 3, 4, 5, 6]
+```
+배열이 합쳐짐
+```
+const copy = [...arr1];
+console.log(copy); // [1, 2, 3] 
+```
+즉, ...을 통해 안에 들어있는 값들을 하나씩 꺼내서 늘어놓는다
+
+```
+const withMiddle = [...arr1, 10, 20, ...arr2];
+console.log(withMiddle); // [1, 2, 3, 10, 20, 4, 5, 6]
+```
+중간에 요소 추가하기
+
+### 4-2. 객체 스프레드
+```
+const user = {
+    name: "김철수",
+    age: 25
+};
+```
+객체 복사
+```
+const userCopy = { ...user };
+```
+속성 추가
+```
+const userWithEmail = { ...user, email: "kim@example.com" };
+console.log(userWithEmail);  // { name: "김철수", age: 25, email: "kim@example.com" }
+```
+속성 덮어쓰기
+```
+const olderUser = { ...user, age: 26 };
+console.log(olderUser);
+```
+## 5. 모듈 시스템(Export/Import)
+### 5-1. Named Export
+여러 개의 값을 내보낼 때 사용함
+```
+// utils.js
+export const PI = 3.14159;
+
+export function add(a, b) {
+    return a + b;
+}
+
+export function subtract(a, b) {
+    return a - b;
+}
+
+// 또는 한 번에 내보내기
+const multiply = (a, b) => a * b;
+const divide = (a, b) => a / b;
+
+export { multiply, divide };
+```
+출력 예시
+```
+import { PI, add, subtract } from './utils.js';
+console.log(PI);           // 3.14159
+console.log(add(2, 3));    // 5
+console.log(subtract(5, 2)); // 3
+```
+> 이 문법은 파일이 다를때만 사용함. 같은 파일일때는 쓸 필요 없다. 
+
+### 5-2. Default Export
+파일당 하나의 주요 값을 내보낼 때 사용한다
+> 그래서 export/import를 쓰는 이유는, 계산 로직 → Calculator.js / 화면 → App.jsx / 버튼 → Button.jsx 이런식으로
+> 한 파일이 한 책임만 갖게 하려고 (웹이든 앱이든 다른 프로젝트던지 같은 로직을 재사용 하기 위해)
+예시
+```
+import Calculator from './Calculator.js';
+```
+
+### 5-3. Named와 Default
+> 둘의 차이는 이 파일에서 내보내는 게 몇개인지, 그리고 대표가 있는가
+Named Export = 여러 개 다 꺼내 쓸 수 있음
 
 # React
 ## 1. 개념과 특징
